@@ -11,15 +11,29 @@
    vi provider.tf
  
  ## File ##
-     # Instruct terraform to download the provider on `terraform init`
-    terraform {
-      required_providers {
-        xenorchestra = {
-          source = "terra-farm/xenorchestra"
-          version = "~> 0.9"
-        }
-      }
-    }
+      # Instruct terraform to download the provider on `terraform init`
+      terraform {
+         required_providers {
+           xenorchestra = {
+             source = "terra-farm/xenorchestra"
+             version = "~> 0.23.3"
+           }
+         }
+       }
+
+       # Configure the XenServer Provider
+       provider "xenorchestra" {
+         # Must be ws or wss
+         url      = "ws://192.168.2.82" # Or set XOA_URL environment variable
+         username = "admin@admin.net"              # Or set XOA_USER environment variable
+         password = "admin"              # Or set XOA_PASSWORD environment variable
+
+         # This is false by default and
+         # will disable ssl verification if true.
+         # This is useful if your deployment uses
+         # a self signed certificate but should be
+         # used sparingly!
+       }
 ## File end ## 
    
    terraform init
@@ -48,8 +62,11 @@
    }
 ## File end ##
    
+   terraform init
+   terraform plan
    
    
-# Quelle: https://xen-orchestra.com/blog/virtops1-xen-orchestra-terraform-provider/
-
+# Quelle: 
+#https://xen-orchestra.com/blog/virtops1-xen-orchestra-terraform-provider/
+#https://registry.terraform.io/providers/terra-farm/xenorchestra/latest/docs/resources/vm
    
