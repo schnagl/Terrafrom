@@ -8,7 +8,7 @@
    mkdir terraform-demo
    cd terraform-demo/
    touch demo.tf
-   vi demo.tf
+   vi provider.tf
  
  ## File ##
      # Instruct terraform to download the provider on `terraform init`
@@ -16,30 +16,40 @@
       required_providers {
         xenorchestra = {
           source = "terra-farm/xenorchestra"
-          version = "~> 0.3.0"
+          version = "~> 0.9"
         }
       }
-    }
-
-    # Configure the XenServer Provider
-    provider "xenorchestra" {
-      # Must be ws or wss
-      url      = "ws://192.168.2.82" # Or set XOA_URL environment variable
-      username = "admin@admin.net"              # Or set XOA_USER environment variable
-      password = "admin"              # Or set XOA_PASSWORD environment variable
-
-      # This is false by default and
-      # will disable ssl verification if true.
-      # This is useful if your deployment uses
-      # a self signed certificate but should be
-      # used sparingly!
-      insecure = true              # Or set XOA_INSECURE environment variable to any value
     }
 ## File end ## 
    
    terraform init
-   terraform plan
-   terraform apply
+   
+   touch vm.tf
+   vi vm.tf 
+   
+## File ##
+   # vm.tf
+   data "xenorchestra_pool" "pool" {
+     name_label = "CitrixXenPool"
+   }
+
+   data "xenorchestra_template" "vm_template" {
+     name_label = "Windows_Server_2019"
+   }
+
+   data "xenorchestra_sr" "sr" {
+     name_label = "LS"
+     pool_id = data.xenorchestra_pool.pool.id
+   }
+
+   data "xenorchestra_network" "network" {
+     name_label = "206_NIBI"
+     pool_id = data.xenorchestra_pool.pool.id
+   }
+## File end ##
    
    
+   
+# Quelle: https://xen-orchestra.com/blog/virtops1-xen-orchestra-terraform-provider/
+
    
