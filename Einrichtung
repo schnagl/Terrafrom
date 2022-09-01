@@ -65,6 +65,7 @@
    terraform init
    terraform plan
    
+   #SNAPSHOT/BILD#
    
 # Quelle: 
 #https://xen-orchestra.com/blog/virtops1-xen-orchestra-terraform-provider/
