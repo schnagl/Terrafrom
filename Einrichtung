@@ -71,3 +71,5 @@
 #https://xen-orchestra.com/blog/virtops1-xen-orchestra-terraform-provider/
 #https://registry.terraform.io/providers/terra-farm/xenorchestra/latest/docs/resources/vm
    
+# Comment:
+# VM erfolgreich erstellt, aber wurde nicht gestartet
