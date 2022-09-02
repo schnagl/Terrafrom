@@ -1,10 +1,26 @@
 # Vorgehen Einchtung Packer Xenserver nach ddelnano
-  apt install golang-go
-  mkdir -p $(go env GOPATH)/src/github.com/hashicorp && cd $_
-  git clone https://github.com/hashicorp/packer.git
-  cd packer
+  sudo apt update && apt upgrade -y
   
-  
+  curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+  sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+  sudo apt-get update && sudo apt-get install packer
+
+  mkdir newgo
+  cd newgo
+  wget https://go.dev/dl/go1.19.linux-amd64.tar.gz #Aktueller download von https://go.dev/doc/install
+
+  cd packer-plugin-xenserver/
+  go build -o packer-plugin-xenserver
+
+  export PATH=$PATH:/usr/local/go/bin
+  cp packer-plugin-xenserver  ~/.packer.d/plugins/packer-builder-xenserver-iso
+
+
   weiter:
   https://github.com/xenserver/packer-builder-xenserver#compile-the-plugin
   https://github.com/ddelnano/packer-plugin-xenserver
+  
+  #Windows: https://github.com/joefitzgerald/packer-windows (old)
+
+ cd examples/ubuntu
+ 
